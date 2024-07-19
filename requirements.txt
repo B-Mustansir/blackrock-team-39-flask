@@ -1,6 +1,6 @@
 flask
 chromadb
-google-genertiveai
+google-generativeai
 yfinance
 pandas
 bs4
