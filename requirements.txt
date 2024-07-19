@@ -9,3 +9,4 @@ langchain_community
 statsmodels
 duckduckgo-search
 flask-cors
+gunicorn
