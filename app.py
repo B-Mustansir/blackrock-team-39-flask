@@ -23,7 +23,8 @@ def recommendation():
     #     "received_data": data['stock']
     # }
     # companies = ['AAPL','TSLA']
-    companies = ['AAPL',"TSLA",'DIS',"ADBE","META","NVDA","JPM","KO","DPZ"]
+    companies = ['AAPL',"TSLA","ADBE","META","NVDA"]
+    # companies = ['AAPL',"TSLA",'DIS',"ADBE","META","NVDA","JPM","KO","DPZ"]
 
     # if data is None:
     #     return jsonify({"error": "No input data provided"}), 400
