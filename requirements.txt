@@ -10,3 +10,4 @@ statsmodels
 duckduckgo-search
 flask-cors
 gunicorn
+gevent
