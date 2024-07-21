@@ -72,7 +72,7 @@ import json
 import os
 
 company_map = {
-    'AAPL':"Apple",
+    "AAPL":"Apple",
     "TSLA":"Tesla",
     "DIS":"Walt Disney Co",
     "ANBN":"Airbnb",
