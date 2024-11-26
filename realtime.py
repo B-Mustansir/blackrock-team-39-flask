@@ -3,12 +3,12 @@
 # ----commpany news sentiments (+1,0,-1)
 # ----Company announcement specific to care of environment, climate change (compnay policies)
 # ----Political and Geopoligical impact of company (+1,0,-1)
-
 from langchain_community.tools import DuckDuckGoSearchResults
 from langchain_community.utilities import DuckDuckGoSearchAPIWrapper
 import requests
 from bs4 import BeautifulSoup
 import re
+import time
 import json
 import google.generativeai as genai
 
@@ -49,31 +49,29 @@ def get_article_text(url):
     except:
         return "Error retrieving article text."
 
-
 def get_realtime_info(company):
-    realtime_info_types = {"employee_satisfaction":"Employee satisfaction and feedback ","client_feedbacks":"clients feedback for ","climate_policies":"climatic change and ESG policies of ","current_internation":"current internation geopolitical news "}
+    realtime_info_types = {
+        "employee_satisfaction": "Employee satisfaction and feedback ",
+        "client_feedbacks": "clients feedback for ",
+        "climate_policies": "climatic change and ESG policies of ",
+        "current_internation": "current internation geopolitical news "
+    }
 
     search_results = {}
     wrapper = DuckDuckGoSearchAPIWrapper(time="y")
-
     search = DuckDuckGoSearchResults(api_wrapper=wrapper)
-    for key, value in realtime_info_types.items(): 
-        if value == "employee_satisfaction":
-            search_results[key]= extract_from_search(search.run(value+company+" site:glassdoor.co.in"))
-        else:
-            search_results[key]= extract_from_search(search.run(value+company))
-    
 
-    search_data = []
-    # print("search results are ",search_results)
-    # for link in search_results.values():
-    #     # search_data.append(get_article_text(link['link']))
-    #     print(link)
-    #     search_data.append(link['snippet'])
-    # print(search_data)
-    # with open("company_data.txt","w", encoding='utf-8') as file:
-    #     file.write(f"{search_data}")
-    # print(search_data)
+    for key, value in realtime_info_types.items():
+        try:
+            if key == "employee_satisfaction":
+                search_results[key] = extract_from_search(search.run(value + company + " site:glassdoor.co.in"))
+            else:
+                search_results[key] = extract_from_search(search.run(value + company))
+            time.sleep(1)  # Add a delay between requests to avoid hitting the rate limit
+        except Exception as e:
+            print(f"Error occurred: {e}")
+            search_results[key] = "An error occurred, please try again later"
+    
     return search_results
 
 # get_realtime_info("apple")
