@@ -1,4 +1,4 @@
-from openai import OpenAI
+from openai import OpenAI, AzureOpenAI
 import json
 from dotenv import load_dotenv
 import os
@@ -8,10 +8,13 @@ load_dotenv()
 
 # Get the sort attribute from environment variables
 
-client = OpenAI(
-        organization=os.getenv('organization'),
-        project=os.getenv('project'),
-        api_key=os.getenv('api_key'),
+client = AzureOpenAI(
+        azure_endpoint=os.getenv('azure_endpoint'), 
+        api_key=os.getenv('azure_api_key'),
+        api_version="2024-08-01-preview"
+        # organization=os.getenv('organization'),
+        # project=os.getenv('project'),
+        # api_key=os.getenv('api_key'),
     )
 
 companies = ['AAPL',"TSLA",'DIS',"ABNB","ADBE","META","NVDA","JPM","KO","DPZ"]
@@ -36,7 +39,7 @@ def get_compnay_details(company):
     """
 
     completion = client.chat.completions.create(
-        model="gpt-4-turbo",
+        model="editai-gpt-4o",
         messages=[
             {"role": "system", "content": "Act as a market specialist and provide information about companies"},
             {"role": "user", "content": prompt},
@@ -74,7 +77,7 @@ def scoring(compnay_name,search_results):
         """
 
         completion = client.chat.completions.create(
-            model="gpt-4-turbo",
+            model="editai-gpt-4o",
             messages=[
                 {"role": "system", "content": "You are a expert stock market analyst , undertsand situations and provide most suitable score as per them"},
                 {"role": "user", "content": prompt},

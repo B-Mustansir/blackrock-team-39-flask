@@ -48,12 +48,15 @@ load_dotenv()
 #     print(response.text)
 #     return output
 
-from openai import OpenAI 
+from openai import OpenAI, AzureOpenAI
 
-client = OpenAI(
-        organization=os.getenv('organization'),
-        project=os.getenv('project'),
-        api_key=os.getenv('api_key'),
+client = AzureOpenAI(
+        azure_endpoint=os.getenv('azure_endpoint'), 
+        api_key=os.getenv('azure_api_key'),
+        api_version="2024-08-01-preview"
+        # organization=os.getenv('organization'),
+        # project=os.getenv('project'),
+        # api_key=os.getenv('api_key'),
     )
 
 import json
@@ -64,7 +67,7 @@ def chat(question, aaple):
     """
 
     completion = client.chat.completions.create(
-        model="gpt-4o-mini",
+        model="editai-gpt-4o",
         messages=[
             {"role": "system", "content": "You are a expert stock market analyst , undertsand user query and resolve it"},
             {"role": "user", "content": prompt},
@@ -86,7 +89,7 @@ def motivation(stock, aaple):
     """
 
     completion = client.chat.completions.create(
-        model="gpt-4o-mini",
+        model="editai-gpt-4o",
         messages=[
             {"role": "system", "content": "You are a expert marketting specialist in a stock market invetment company"},
             {"role": "user", "content": prompt},
